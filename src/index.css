@@ -1,0 +1,46 @@
+@import "tailwindcss";
+html,
+/* Global CSS */
+html, body, #root {
+  height: 100%;
+  margin: 0; /* Removes default browser spacing */
+  background-color: #121212;
+}
+@theme {
+  /* backgrounds */
+  --color-bg: #141414;
+  --color-card: #313131;
+  --color-line: #323234;
+  --color-card-hover: #242424;
+  --color-inputs: #1c1c1c;
+  --color-border: #444444;
+  --color-modal: #1c1c1c;
+
+  /* text */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #888888;
+  --color-text-muted: #555555;
+
+  /* accents */
+  --color-now-line: #e63c3c;
+  --color-checked: #e63c6d;
+  --color-continue-btn: #e63c3c;
+
+  /* event pill colors */
+  --color-pill-blue: #4fa3e8;
+  --color-pill-amber: #f5a623;
+  --color-pill-purple: #b06de8;
+  --color-pill-green: #4cbb72;
+  --color-pill-coral: #e86c4f;
+  --color-pill-yellow: #e8d04f;
+  --color-pill-pink: #e84fa3;
+  --color-pill-teal: #4fe8d0;
+
+  /* done/completed state */
+  --color-pill-done: #888888;
+  --color-text-done: #666666;
+
+  /* timeline */
+  --color-spine: #2a2a2a;
+  --color-hour-marker: #333333;
+}
