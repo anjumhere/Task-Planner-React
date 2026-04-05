@@ -1,34 +1,33 @@
-# 📝 React Noter
+# 🗓️ Day Planner
 
-A clean, minimal, and fully functional notes application built with **React.js**. Supports adding, deleting, and persisting notes across browser sessions using localStorage.
+A clean, minimal day planner built with React. Plan your day visually using a timeline with color-coded time blocks, icons, and real-time task tracking.
 
----
-
-## 👨‍💻 Author
-
-**Adnan Anjum**
+🔗 **Live Demo** → [https://anjumhere.github.io/Task-Planner-React/](https://anjumhere.github.io/Task-Planner-React/)
 
 ---
 
-## 🚀 Live Features
+## ✨ Features
 
-- ✅ Add notes with a title and details
-- ✅ Delete individual notes
-- ✅ Notes persist on page refresh via **localStorage**
-- ✅ Responsive layout — works on mobile and desktop
-- ✅ Clean dark UI with a modern design
+- **Visual Timeline** — Vertical timeline with colored blocks representing each event, synced with task cards
+- **Task Cards** — Each card displays event title, time range, duration, and completion state
+- **Create Events** — Modal form to add events with custom title, start/end time, icon, and color
+- **12-Hour Time Format** — Times are displayed in AM/PM format
+- **Duration Display** — Automatically calculates and shows event duration (e.g. `1h 30m`)
+- **Completion Toggle** — Check off tasks with a strikethrough and fade effect
+- **Color Coding** — Each event has its own color reflected in both the timeline block and task card
+- **Icon Support** — Choose from 8 icons per event, rendered inside the timeline block
 
 ---
 
 ## 🛠️ Tech Stack
 
 | Technology | Purpose |
-|------------|---------|
-| React.js | UI & Component Architecture |
-| useState | Local state management |
-| useEffect | Side effects (localStorage sync) |
-| localStorage | Data persistence |
-| Tailwind CSS | Styling |
+|---|---|
+| React | UI framework |
+| Tailwind CSS | Styling and layout |
+| Material UI | Checkbox component |
+| Remix Icons | Timeline and UI icons |
+| Vite | Build tool |
 
 ---
 
@@ -36,150 +35,91 @@ A clean, minimal, and fully functional notes application built with **React.js**
 
 ```
 src/
-├── App.jsx                  # Root component — state, logic, and layout
-└── components/
-    ├── InputData.jsx        # Left panel — form to add notes
-    └── Notes.jsx            # Right panel — displays all notes
+├── components/
+│   ├── ModalComponents/
+│   │   └── Modal.jsx          # Event creation form
+│   ├── TaskComponents/
+│   │   ├── Tasks.jsx          # Individual task card
+│   │   └── RenderTasks.jsx    # Task list renderer
+│   └── TimeLineComponent/
+│       └── TimeLine.jsx       # Vertical timeline with colored blocks
+├── App.jsx                    # Root component, state management
+└── main.jsx                   # Entry point
 ```
 
 ---
 
-## ⚙️ How It Works
+## 🚀 Getting Started
 
-### State Management
-All state lives in `App.jsx` and is passed down to child components via **props**. This keeps the app predictable with a single source of truth.
+### Prerequisites
 
-```jsx
-const [title, setTitle] = useState("");
-const [details, setDetails] = useState("");
-const [notes, setNotes] = useState([]);
-```
+- Node.js v18+
+- npm or yarn
 
-### Adding a Note
-When the user fills in the form and clicks **Add Note**, the `formHandler` function runs, pushes the new note into the array, and resets the inputs.
+### Installation
 
-```jsx
-const formHandler = (e) => {
-  e.preventDefault();
-  if (!title.trim()) return;
-  setNotes([...notes, { title, details }]);
-  setTitle("");
-  setDetails("");
-};
-```
-
-### Deleting a Note
-Each note card has a **Delete** button that calls `deleteNote(index)`, which removes that specific note from the array.
-
-```jsx
-const deleteNote = (index) => {
-  const copyTask = [...notes];
-  copyTask.splice(index, 1);
-  setNotes(copyTask);
-};
-```
-
-### localStorage Persistence
-Notes are saved to the browser's localStorage on every change using `useEffect`, and loaded back on app startup inside the `useState` initializer.
-
-```jsx
-// Load on startup
-const [notes, setNotes] = useState(() => {
-  const saved = localStorage.getItem("notes");
-  return saved ? JSON.parse(saved) : [];
-});
-
-// Save on every change
-useEffect(() => {
-  localStorage.setItem("notes", JSON.stringify(notes));
-}, [notes]);
-```
-
----
-
-## 🧩 Component Breakdown
-
-### `App.jsx`
-The brain of the app. Owns all state and logic, and passes everything down as props.
-
-**Passes to `InputData`:** `title`, `setTitle`, `details`, `setDetails`, `formHandler`
-
-**Passes to `Notes`:** `notes`, `deleteNote`
-
----
-
-### `InputData.jsx`
-Renders the left panel with the input form. Receives all form-related props from `App.jsx` and has no state of its own.
-
----
-
-### `Notes.jsx`
-Renders the right panel with all note cards. Maps over the `notes` array and displays each note with a delete button.
-
----
-
-## 🏃 Getting Started
-
-### 1. Clone the repository
 ```bash
-git clone https://github.com/adnananjum/react-noter.git
-cd notes-app
-```
+# Clone the repository
+git clone https://github.com/anjumhere/Task-Planner-React.git
 
-### 2. Install dependencies
-```bash
+# Navigate into the project
+cd Task-Planner-React
+
+# Install dependencies
 npm install
-```
 
-### 3. Start the development server
-```bash
+# Start the development server
 npm run dev
 ```
 
-### 4. Open in browser
-```
-http://localhost:5173
+Then open [http://localhost:5173](http://localhost:5173) in your browser.
+
+---
+
+## 🎮 How to Use
+
+1. Open the app — you'll see a vertical timeline and an empty task area
+2. Click **+ Create Event** at the bottom
+3. Fill in:
+   - **Event Name** — e.g. "Deep Work Session"
+   - **Start Time** and **End Time**
+   - **Icon** — choose from 8 options
+   - **Color** — pick from 8 color swatches
+4. Click **Add Event** — the event appears as a card with a matching colored block on the timeline
+5. Check the checkbox to mark an event as done — the card fades and the title gets a strikethrough
+
+---
+
+## 🎨 Design System
+
+The app uses CSS custom properties for consistent theming:
+
+```css
+--color-bg              /* main background */
+--color-card            /* card and block background */
+--color-border          /* borders and dividers */
+--color-text-primary    /* white text */
+--color-text-secondary  /* muted grey text */
+--color-text-muted      /* very subtle text */
 ```
 
 ---
 
-## 📸 App Preview
+## 📌 Roadmap
 
-```
-┌─────────────────────┬──────────────────────────────┐
-│    React Noter      │        Your Notes             │
-│                     │                               │
-│  [Note title...]    │  ┌─────────┐  ┌─────────┐   │
-│                     │  │  NOTE   │  │  NOTE   │   │
-│  [What's on your   │  │ Title 1 │  │ Title 2 │   │
-│   mind?         ]  │  │ details │  │ details │   │
-│                     │  │[Delete] │  │[Delete] │   │
-│  [  Add Note  ]     │  └─────────┘  └─────────┘   │
-└─────────────────────┴──────────────────────────────┘
-```
+- [ ] Time draining animation on timeline blocks
+- [ ] Persist events with localStorage
+- [ ] Drag to reorder events
+- [ ] Delete and edit events
+- [ ] Daily summary at end of timeline
+- [ ] Mobile responsive layout
 
 ---
 
-## 📚 Concepts Covered
+## 👨‍💻 Author
 
-This project was built to practice and solidify the following React concepts:
-
-- **Component-based architecture** — breaking UI into reusable pieces
-- **Props** — passing data and functions between parent and child components
-- **useState** — managing local state
-- **useEffect** — running side effects when state changes
-- **localStorage** — persisting data in the browser
-- **Controlled inputs** — binding form inputs to React state
-
----
-
-## 🔮 Future Improvements
-
-- [ ] Edit existing notes
-- [ ] Mark notes as important/pinned
-- [ ] Add categories or color tags
-- [ ] Search and filter notes
-- [ ] Drag and drop to reorder
+Built by **Anjum**
+[GitHub](https://github.com/anjumhere)
 
 ---
 
