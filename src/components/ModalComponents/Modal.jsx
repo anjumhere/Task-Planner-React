@@ -73,7 +73,12 @@ const Modal = ({
             <p className="text-xs tracking-widest text-text-muted uppercase">
               Icon
             </p>
-            <select className="bg-inputs outline-none text-white rounded-xl w-full p-3 border border-border cursor-pointer">
+            <select
+              name="icon"
+              value={formData.icon}
+              onChange={handleChange}
+              className="bg-inputs outline-none text-white rounded-xl w-full p-3 border border-border cursor-pointer"
+            >
               <option value="🏃">🏃 Exercise</option>
               <option value="☕">☕ Coffee</option>
               <option value="💻">💻 Work</option>
@@ -92,8 +97,16 @@ const Modal = ({
               {colors.map((elem, idx) => (
                 <div
                   key={idx}
-                  className=" h-7 w-7 rounded-full hover:scale-110 transition-transform cursor-pointer hover:border-2 border-white "
-                  style={{ background: elem }}
+                  onClick={() =>
+                    handleChange({ target: { name: "color", value: elem } })
+                  }
+                  className="h-7 w-7 rounded-full hover:scale-110 transition-transform cursor-pointer"
+                  style={{
+                    background: elem,
+                    outline:
+                      formData.color === elem ? "2px solid white" : "none",
+                    outlineOffset: "2px",
+                  }}
                 ></div>
               ))}
             </div>
