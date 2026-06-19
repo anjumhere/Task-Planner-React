@@ -1,130 +1,72 @@
-import React, { useState } from "react";
+import React from "react";
 
-const Modal = ({
-  isOpen,
-  setIsOpen,
-  formData,
-  handleChange,
-  handlleSubmit,
-}) => {
-  const colors = [
-    "#4fa3e8",
-    "#f5a623",
-    "#b06de8",
-    "#4cbb72",
-    "#e86c4f",
-    "#e8d04f",
-    "#e84fa3",
-    "#4fe8d0",
-  ];
+// Move static data outside component
+const EVENT_COLORS = ["#4fa3e8", "#f5a623", "#b06de8", "#4cbb72", "#e86c4f", "#e8d04f", "#e84fa3", "#4fe8d0"];
+const EVENT_ICONS = [
+  { val: "🏃", label: "Exercise" }, { val: "☕", label: "Coffee" },
+  { val: "💻", label: "Work" }, { val: "📚", label: "Study" },
+  { val: "🎵", label: "Music" }, { val: "🧘", label: "Meditation" },
+  { val: "📞", label: "Call" }, { val: "🍽️", label: "Meal" },
+];
 
+const InputLabel = ({ label, children }) => (
+  <div className="flex flex-col gap-2">
+    <p className="text-xs tracking-widest text-text-muted uppercase">{label}</p>
+    {children}
+  </div>
+);
+
+const Modal = ({ isOpen, setIsOpen, formData, handleChange, handleSubmit }) => {
   return (
-    <div className="min-h-screen z-1000 w-full flex justify-center items-center fixed inset-0 bg-black/90  backdrop-blur-xs text-white">
-      <div className="w-96 bg-card border border-border rounded-2xl flex flex-col gap-6 p-7  shadow-2xl">
-        <form className="flex flex-col gap-6 " onSubmit={handlleSubmit}>
-          {/* title */}
+    <div className="fixed inset-0 z-[1000] flex min-h-screen w-full items-center justify-center bg-black/90 backdrop-blur-xs text-white">
+      <div className="w-96 rounded-2xl border border-border bg-card p-7 shadow-2xl">
+        <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
           <h1 className="text-xl font-bold tracking-widest">Create Event</h1>
 
-          {/* event name */}
-          <div className="flex flex-col gap-2">
-            <p className="text-xs tracking-widest text-text-muted uppercase">
-              Event Name
-            </p>
+          <InputLabel label="Event Name">
             <input
               name="title"
               value={formData.title}
               onChange={handleChange}
               type="text"
               placeholder="e.g. Deep Work Station"
-              className="w-full bg-inputs px-4 py-3 border border-border rounded-xl outline-none text-white placeholder-gray-600"
+              className="w-full rounded-xl border border-border bg-inputs px-4 py-3 outline-none placeholder:text-gray-600"
             />
-          </div>
+          </InputLabel>
 
-          {/* time */}
           <div className="flex gap-4">
-            <div className="flex flex-col gap-2 flex-1">
-              <p className="text-xs tracking-widest text-text-muted uppercase">
-                Start Time
-              </p>
-              <input
-                name="startTime"
-                value={formData.startTime}
-                onChange={handleChange}
-                type="time"
-                className="text-white bg-inputs px-4 py-3 rounded-xl border border-border outline-none w-full"
-              />
-            </div>
-            <div className="flex flex-col gap-2 flex-1">
-              <p className="text-xs tracking-widest text-text-muted uppercase">
-                End Time
-              </p>
-              <input
-                name="endTime"
-                value={formData.endTime}
-                type="time"
-                onChange={handleChange}
-                className="text-white bg-inputs px-4 py-3 rounded-xl border border-border outline-none w-full "
-              />
-            </div>
+            <InputLabel label="Start Time">
+              <input name="startTime" value={formData.startTime} onChange={handleChange} type="time" className="w-full rounded-xl border border-border bg-inputs px-4 py-3 outline-none" />
+            </InputLabel>
+            <InputLabel label="End Time">
+              <input name="endTime" value={formData.endTime} onChange={handleChange} type="time" className="w-full rounded-xl border border-border bg-inputs px-4 py-3 outline-none" />
+            </InputLabel>
           </div>
 
-          {/* icon */}
-          <div className="flex flex-col gap-2">
-            <p className="text-xs tracking-widest text-text-muted uppercase">
-              Icon
-            </p>
-            <select
-              name="icon"
-              value={formData.icon}
-              onChange={handleChange}
-              className="bg-inputs outline-none text-white rounded-xl w-full p-3 border border-border cursor-pointer"
-            >
-              <option value="🏃">🏃 Exercise</option>
-              <option value="☕">☕ Coffee</option>
-              <option value="💻">💻 Work</option>
-              <option value="📚">📚 Study</option>
-              <option value="🎵">🎵 Music</option>
-              <option value="🧘">🧘 Meditation</option>
-              <option value="📞">📞 Call</option>
-              <option value="🍽️">🍽️ Meal</option>
+          <InputLabel label="Icon">
+            <select name="icon" value={formData.icon} onChange={handleChange} className="w-full cursor-pointer rounded-xl border border-border bg-inputs p-3 outline-none">
+              {EVENT_ICONS.map((i) => <option key={i.val} value={i.val}>{i.val} {i.label}</option>)}
             </select>
-          </div>
-          <div className="flex  flex-col gap-2">
-            <p className="text-xs tracking-widest text-text-muted uppercase">
-              Color
-            </p>
-            <div className="flex gap-2 w-full justify-center items-center  ">
-              {colors.map((elem, idx) => (
-                <div
-                  key={idx}
-                  onClick={() =>
-                    handleChange({ target: { name: "color", value: elem } })
-                  }
-                  className="h-7 w-7 rounded-full hover:scale-110 transition-transform cursor-pointer"
-                  style={{
-                    background: elem,
-                    outline:
-                      formData.color === elem ? "2px solid white" : "none",
-                    outlineOffset: "2px",
-                  }}
-                ></div>
+          </InputLabel>
+
+          <InputLabel label="Color">
+            <div className="flex w-full items-center justify-center gap-2">
+              {EVENT_COLORS.map((color) => (
+                <button
+                  key={color}
+                  type="button"
+                  aria-label={`Select color ${color}`}
+                  onClick={() => handleChange({ target: { name: "color", value: color } })}
+                  className={`h-7 w-7 rounded-full transition-transform hover:scale-110 ${formData.color === color ? "ring-2 ring-white ring-offset-2" : ""}`}
+                  style={{ background: color }}
+                />
               ))}
             </div>
-          </div>
+          </InputLabel>
+
           <div className="flex gap-4">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="py-2 px-10 border hover:scale-105 transition-transform cursor-pointer  border-border rounded-xl"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="py-1 px-13 border hover:scale-105 transition-transform cursor-pointer  border-border rounded-xl"
-              onClick={handlleSubmit}
-            >
-              Add Event
-            </button>
+            <button type="button" onClick={() => setIsOpen(false)} className="flex-1 rounded-xl border border-border py-2 transition-transform hover:scale-105">Cancel</button>
+            <button type="submit" className="flex-1 rounded-xl border border-border py-2 transition-transform hover:scale-105">Add Event</button>
           </div>
         </form>
       </div>
