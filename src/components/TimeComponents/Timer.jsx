@@ -10,16 +10,14 @@ const Timer = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const format = (num) => String(num).padStart(2, "0");
+
   return (
-    <div>
-      <div>
-        <h1 className="text-3xl text-zinc-400 font-semibold">
-          {" "}
-          {String(time.getHours()).padStart(2, "0")}:
-          {String(time.getMinutes()).padStart(2, "0")}:
-          {String(time.getSeconds()).padStart(2, "0")}
-        </h1>
-      </div>
+    <div className="flex items-center justify-center">
+      {/* Adding tabular-nums and font-mono prevents digit jumping */}
+      <h1 className="font-mono text-3xl font-semibold tabular-nums text-zinc-400">
+        {format(time.getHours())}:{format(time.getMinutes())}:{format(time.getSeconds())}
+      </h1>
     </div>
   );
 };
