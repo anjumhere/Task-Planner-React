@@ -2,25 +2,24 @@ import React from "react";
 import Tasks from "./Tasks";
 
 const RenderTasks = ({ newTasks, formatTime }) => {
-  if (newTasks.length === 0) {
+  // Handle Empty State
+  if (!newTasks?.length) {
     return (
-      <div
-        className="flex items-center justify-center rounded-2xl"
-        style={{
-          height: "110px",
-          border: "1px dashed var(--color-border)",
-          color: "var(--color-text-muted)",
-        }}
-      >
-        <p className="tracking-widest text-xs uppercase">No events yet</p>
+      <div className="flex h-[110px] items-center justify-center rounded-2xl border border-dashed border-border text-text-muted">
+        <p className="text-xs uppercase tracking-widest">No events yet</p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col mt-12" style={{ gap: "12px" }}>
-      {newTasks.map((task, idx) => (
-        <Tasks key={idx} task={task} formatTime={formatTime} />
+    <div className="mt-12 flex flex-col gap-3">
+      {newTasks.map((task) => (
+        // Use a unique ID instead of index for better React performance
+        <Tasks 
+          key={task.id || task.title} 
+          task={task} 
+          formatTime={formatTime} 
+        />
       ))}
     </div>
   );
